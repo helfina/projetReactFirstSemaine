@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--
+    maxime.pie@3wa.io
+    https://github.com/MaximePie
+     Avant lundi 00h00
+    - Par git ou compressé (préférence pour GIT)
+    - maxime.pie@3wa.io
+    - Un fichier texte (ou md) Readme, qui contienne les instructions qui permettent de lancer l'application.
+    - Qualité du code, optimisation, nommage des variables, structure globale
+    -->
+    <meta charset="UTF-8"/>
+    <title>Hello React</title>
+    <!-- Library -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+
+    <!-- babel => compilation du JSX -->
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <style>
+        /*
+        * Mettez le style ici, ou bien chargez-le depuis un fichier style
+        */
+        .title{
+            text-align: center;
+        }
+        #wrapper{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin-left: 25%;
+            width: 50%;
+            height: auto;
+            min-height: 500px;
+            background-color: black;
+            box-shadow: 0px 0px 12px 8px #171717;
+        }
+        #app-horloge{
+            overflow: hidden
+        }
+
+        #clock {
+            width: 27vw;
+            height: 27vw;
+            min-width: 330px;
+            min-height: 330px;
+            margin: auto;
+            border-radius: 50%;
+            border: 15px solid #4a0072;
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hand {
+            position: absolute;
+            align-self: center;
+            border-radius: 50%;
+            background: white;
+        }
+
+        .hours {
+            width: 5px;
+            height: 35%;
+            color: white;
+        }
+
+        .minutes {
+            width: 3px;
+            height: 40%;
+            color: white;
+        }
+
+        .seconds {
+            width: 2px;
+            height: 50%;
+            color: white;
+        }
+        p{
+            text-align: center;
+        }
+        .App{
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+    /*class Horloge */
+    class ClockTime extends React.Component{
+
+        constructor()
+        {   super();
+            this.state =
+                {
+                    dateTime : new Date(),
+                    seconds: "",
+                    minute : "",
+                    hours : "",
+                    interval : null,
+                    status :  false,
+                    timer: 1000,
+
+                }
+            this.dateTime = this.dateTime.bind(this);
+            setInterval(this.dateTime, 1000);
+
+        }
+        render() {
+            return (
+                <div>
+                    {console.log(this.dateTime)}
+                    <h2 className="title">Horloge</h2>
+                    <div id="wrapper">
+                        <section id="app-horloge">
+                            <div id="clock">
+                                <span className="hand hours">{this.state.hours}</span>
+                                <span className="hand minutes">{this.state.minute}</span>
+                                <span className="hand seconds">{this.state.seconds}</span>
+                            </div>
+
+                        </section>
+
+                    </div>
+
+                    {
+                        /* Appelez un ou plusieurs composants ici
+                        Que ton horloge ait deux modes possibles
+                        Tu utiliserais une props pour définir à lappel du composant le mode choisi
+                        Et dans ta page tu afficherais deux horloges, une de chaque mode
+                        Ya un mode comme actuellementr
+                        Et un nouveau mode,
+                        Où les aiguilles bougent de manière fluide, et non plus sacadée, seconde par seconde
+                        Est-ce que tu vois ce que je veux dire ?
+                        Comme si le temps s'écoulait comme de l'eau, au lieu d'avoir comme des "marches", qui sont les secondes
+                        */
+                        <p>
+                            {this.state.dateTime.toDateString()}<br/>
+                            {this.state.dateTime.toLocaleTimeString()}
+                        </p>
+                    }
+                </div>
+            )
+        }
+        dateTime(){
+
+            const hoursHand = document.querySelector('.hours');
+            const minutesHand = document.querySelector('.minutes');
+            const secondsHand = document.querySelector('.seconds');
+            let now = new Date;
+            let seconds = now.getSeconds();
+            let minutes = now.getMinutes();
+            let hours = now.getHours();
+            let hoursAngle = (360 * hours) / 12;
+            let minutesAngle = (360 * minutes) / 60;
+            let secondsAngle = (360 * seconds) / 60;
+
+            hoursHand.style.transform = `rotate(${hoursAngle}deg) translate(0, -50%)`;
+            minutesHand.style.transform = `rotate(${minutesAngle}deg) translate(0, -50%)`;
+            secondsHand.style.transform = `rotate(${secondsAngle}deg) translate(0, -50%)`;
+
+            console.log("coucou");
+
+            this.setState({
+                dateTime: now,
+                seconds : seconds,
+                minutes : minutes,
+                hours :hours,
+            })
+
+        }
+    }
+
+    /*classe TableMultiplication*/
+    class TableMultiplication extends React.Component{
+        constructor() {
+            super();
+            this.state =
+                {
+                    randNumber : this.getRandomInteger(0,10),
+                    randNumber2 : this.getRandomInteger(0,10),
+                    question : "Combien font",
+                    text : "",
+                    reponse: "",
+                    score : 0,
+                    result: "",
+                }
+
+            this.getValueInput = this.getValueInput.bind(this);
+            this.compareReponse = this.compareReponse.bind(this);
+            this.hiddenText = this.hiddenText.bind(this);
+        }
+
+        render() {
+            return (
+                <div className="App">
+                    <p>{this.state.question} : {this.state.randNumber} X {this.state.randNumber2}  ? </p>
+                    <input className="multiInput" type="number" value={this.state.reponse} onChange={this.getValueInput} onFocus={this.hiddenText} />
+                    <button type="submit" onClick={this.compareReponse} >Valider ma réponse</button>
+                    <p>{this.state.text}</p>
+                    <p>score : {this.state.score}</p>
+
+                </div>
+            )
+        }
+        /**
+         * genere un nombre entier aleatoirement
+         * */
+        getRandomInteger(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min +1)) + min;
+        }
+
+        /**
+         * Met a jour le state reponse
+         * */
+        getValueInput(event){
+            this.setState({
+                reponse : event.target.value,
+            })
+        }
+
+        /**
+         * comparaison de la valeur de la  question et de la valeur de la reponse
+         * */
+        compareReponse(){
+            let rand1 = this.state.randNumber;
+            let rand2 = this.state.randNumber2;
+            let resultat = rand1 * rand2;
+            let reponse = this.state.reponse;
+            let texte;
+            let score;
+            let result;
+            if(resultat == reponse){
+                texte = "bravo";
+                score = this.state.score+1;
+                result = true;
+                this.regeneQuestions();
+
+            }else{
+                texte = "ce n'est pas la bonne reponse";
+                score = this.state.score-1;
+                result = false;
+            }
+            this.setState({
+                text : texte,
+                score : score,
+                result: result,
+            })
+
+        }
+        /**
+         * regenere de nouveaux nombre
+         * */
+        regeneQuestions(){
+            let  rand1 =  this.getRandomInteger(0,10);
+            let  rand2 =  this.getRandomInteger(0,10);
+
+            this.setState({
+                randNumber: rand1,
+                randNumber2: rand2,
+                reponse : "",
+            })
+
+            /**
+             * reinitialize le state text a vide quand on focus l'input
+             * */
+        }
+        hiddenText(){
+            this.setState({
+                text : "",
+            })
+        }
+
+
+    }
+    // App est l'élément qui servira de base pour votre application, c'est son point d'entrée.
+    class App extends React.Component {
+
+        render() {
+            return (
+                <div className="App">
+
+                    {/* Appelez un ou plusieurs composants ici*/}
+                    <ClockTime/>,
+                    <TableMultiplication/>
+                </div>
+            )
+        }
+    }
+
+    // Rendu dans le DOM
+    ReactDOM.render(
+        <App/>,
+        document.getElementById('root')
+    );
+</script>
+</body>
+
+</html>

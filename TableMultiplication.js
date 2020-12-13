@@ -11,6 +11,7 @@ class TableMultiplication extends React.Component{
                 reponse: "",
                 score : 0,
                 result: "",
+                vies: 3,
             }
 
         this.getValueInput = this.getValueInput.bind(this);
@@ -24,9 +25,8 @@ class TableMultiplication extends React.Component{
                 <p>{this.state.question} : {this.state.randNumber} X {this.state.randNumber2}  ? </p>
                 <input className="multiInput" type="number" value={this.state.reponse} onChange={this.getValueInput} onFocus={this.hiddenText} />
                 <button type="submit" onClick={this.compareReponse} >Valider ma réponse</button>
-                <p>{this.state.text}</p>
+                <p>{this.state.text} - vies : {this.state.vies}</p>
                 <p>score : {this.state.score}</p>
-
             </div>
         )
     }
@@ -57,23 +57,50 @@ class TableMultiplication extends React.Component{
         let resultat = rand1 * rand2;
         let reponse = this.state.reponse;
         let texte;
-        let score;
+        let score = this.state.score;
         let result;
+        let vies = this.state.vies;
+
         if(resultat == reponse){
             texte = "bravo";
-            score = this.state.score+1;
+            score = score + 1;
             result = true;
+
+            if(vies <= 2 ){
+                vies = vies + 1
+            }
+
             this.regeneQuestions();
+
 
         }else{
             texte = "ce n'est pas la bonne reponse";
-            score = this.state.score-1;
             result = false;
+
+            //si vie est egale a 0
+            if(vies == 0){
+                texte = "Vous Avez perdue !";
+            }
+
+            //sinon si vie est superieur de 0 ou egal a 1 ou vies est inferieure ou egale a 3
+            else if(vies >= 1 || vies <= 3){
+                vies = vies - 1;
+            }
+            //si score est superieur a 0 ou egal a 1
+            if(score >= 1){
+                score = score - 1;
+            }
+
+
+
         }
+
         this.setState({
             text : texte,
             score : score,
             result: result,
+            vies : vies,
+
         })
 
     }

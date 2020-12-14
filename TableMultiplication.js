@@ -22,11 +22,13 @@ class TableMultiplication extends React.Component{
     render() {
         return (
             <div className="App">
-                <p>{this.state.question} : {this.state.randNumber} X {this.state.randNumber2}  ? </p>
+                <form onSubmit={this.compareReponse}>
+                <label>{this.state.question} : {this.state.randNumber} X {this.state.randNumber2}  ? </label>
                 <input className="multiInput" type="number" value={this.state.reponse} onChange={this.getValueInput} onFocus={this.hiddenText} />
-                <button type="submit" onClick={this.compareReponse} >Valider ma réponse</button>
+                <button>Valider ma réponse</button>
                 <p>{this.state.text} - vies : {this.state.vies}</p>
                 <p>score : {this.state.score}</p>
+                </form>
             </div>
         )
     }
@@ -51,7 +53,13 @@ class TableMultiplication extends React.Component{
     /**
      * comparaison de la valeur de la  question et de la valeur de la reponse
      * */
-    compareReponse(){
+    compareReponse(event){
+        /*
+        * quand tu perd  une vie tu pert un point ce n'est pas le comporetement souhaiter, idem   pour la recuperation de vie
+        *
+        * */
+        event.preventDefault();
+
         let rand1 = this.state.randNumber;
         let rand2 = this.state.randNumber2;
         let resultat = rand1 * rand2;
@@ -80,19 +88,19 @@ class TableMultiplication extends React.Component{
             //si vie est egale a 0
             if(vies == 0){
                 texte = "Vous Avez perdue !";
+                this.regeneQuestions();
+
             }
 
             //sinon si vie est superieur de 0 ou egal a 1 ou vies est inferieure ou egale a 3
-            else if(vies >= 1 || vies <= 3){
+            else if(vies >= 1){
                 vies = vies - 1;
             }
+
             //si score est superieur a 0 ou egal a 1
             if(score >= 1){
                 score = score - 1;
             }
-
-
-
         }
 
         this.setState({
@@ -105,7 +113,7 @@ class TableMultiplication extends React.Component{
 
     }
     /**
-     * regenere de nouveaux nombre
+     * regenere de nouveaux nombres
      * */
     regeneQuestions(){
         let  rand1 =  this.getRandomInteger(0,10);

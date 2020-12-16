@@ -12,6 +12,7 @@ class TableMultiplication extends React.Component{
                 score : 0,
                 result: "",
                 vies: 3,
+                histScore: [],
             }
 
         this.getValueInput = this.getValueInput.bind(this);
@@ -28,6 +29,10 @@ class TableMultiplication extends React.Component{
                 <button>Valider ma réponse</button>
                 <p>{this.state.text} - vies : {this.state.vies}</p>
                 <p>score : {this.state.score}</p>
+                    <h2>Historique</h2>
+
+                <p>{this.state.histScore}</p>
+
                 </form>
             </div>
         )
@@ -75,7 +80,7 @@ class TableMultiplication extends React.Component{
             result = true;
 
             if(vies <= 2 ){
-                vies = vies + 1
+                vies = vies + 1;
             }
 
             this.regeneQuestions();
@@ -101,6 +106,23 @@ class TableMultiplication extends React.Component{
             if(score >= 1){
                 score = score - 1;
             }
+
+            // si tu na plus de vie tu affiche game over
+            if(vies == 0){
+                // tu stocke score dans un tableau
+                let tab = this.state.histScore;
+                tab.push(score);
+                console.log(tab);
+                score = score;
+                console.log( "vaut" + score);
+                // tu rafraichit le jeu
+                alert("Game Over");
+            }
+
+
+
+
+
         }
 
         this.setState({

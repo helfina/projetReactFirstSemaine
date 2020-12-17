@@ -124,7 +124,7 @@ class TableMultiplication extends React.Component{
             // mais si tu une bonne reponse,
             // vies reste fix et score s'incremente
             //si le resultat est faux
-            if(resultat != reponse){
+            if(resultat != reponse && vies == 0){
                 score = score - 1;
             }
         }

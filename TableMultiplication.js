@@ -48,32 +48,29 @@ class TableMultiplication extends React.Component{
             </div>
         )
     }
-    /**
+
+    /*
      * genere un nombre entier aleatoirement
-     * */
+     */
     getRandomInteger(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min +1)) + min;
     }
 
-    /**
+    /*
      * Met a jour le state reponse
-     * */
+     */
     getValueInput(event){
         this.setState({
             reponse : event.target.value,
         })
     }
 
-    /**
+    /*
      * comparaison de la valeur de la  question et de la valeur de la reponse
-     * */
+     */
     compareReponse(event){
-        /*
-        * quand tu perd  une vie tu pert un point ce n'est pas le comporetement souhaiter,
-        * idem   pour la recuperation de vie
-        * */
         event.preventDefault();
 
         let rand1 = this.state.randNumber;
@@ -86,6 +83,7 @@ class TableMultiplication extends React.Component{
         let vies = this.state.vies;
         let histScore = [...this.state.histScore];
 
+        // si le resultat est vrai
         if(resultat == reponse){
             texte = "bravo";
             score = score + 1;
@@ -125,12 +123,11 @@ class TableMultiplication extends React.Component{
             }
             // mais si tu une bonne reponse,
             // vies reste fix et score s'incremente
-            //si score est superieur a 0 ou egal a 1
-            if(score >= 1){
+            //si le resultat est faux
+            if(resultat != reponse){
                 score = score - 1;
             }
         }
-
         this.setState({
             text : texte,
             score : score,

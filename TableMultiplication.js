@@ -23,17 +23,28 @@ class TableMultiplication extends React.Component{
     render() {
         return (
             <div className="App">
+
                 <form onSubmit={this.compareReponse}>
                 <label>{this.state.question} : {this.state.randNumber} X {this.state.randNumber2}  ? </label>
-                <input className="multiInput" type="number" value={this.state.reponse} onChange={this.getValueInput} onFocus={this.hiddenText} />
+                <input className="multiInput"
+                       type="number"
+                       value={this.state.reponse}
+                       onChange={this.getValueInput}
+                       onFocus={this.hiddenText}
+
+                />
                 <button>Valider ma réponse</button>
-                <p>{this.state.text} - vies : {this.state.vies}</p>
-                <p>score : {this.state.score}</p>
-                    <h2>Historique</h2>
-
-                <p>{this.state.histScore}</p>
-
                 </form>
+
+                <div>
+                    <p>{this.state.text}</p>
+                    <p>vies : {this.state.vies}</p>
+                    <p>score : {this.state.score}</p>
+                    <h6>Historiques</h6>
+                    <ul>
+                        <li>{this.state.histScore}</li>
+                    </ul>
+                </div>
             </div>
         )
     }
@@ -60,8 +71,8 @@ class TableMultiplication extends React.Component{
      * */
     compareReponse(event){
         /*
-        * quand tu perd  une vie tu pert un point ce n'est pas le comporetement souhaiter, idem   pour la recuperation de vie
-        *
+        * quand tu perd  une vie tu pert un point ce n'est pas le comporetement souhaiter,
+        * idem   pour la recuperation de vie
         * */
         event.preventDefault();
 
@@ -73,56 +84,51 @@ class TableMultiplication extends React.Component{
         let score = this.state.score;
         let result;
         let vies = this.state.vies;
+        let histScore = [...this.state.histScore];
 
         if(resultat == reponse){
             texte = "bravo";
             score = score + 1;
             result = true;
-
-            if(vies <= 2 ){
-                vies = vies + 1;
-            }
-
+            vies = 3;
+            console.log("score vaut : " + score );
+            console.log("vies vaut : " + vies );
             this.regeneQuestions();
+        }
 
-
-        }else{
+        //sinon si vie est superieur de 0 ou egal a 1
+        else if(vies >= 1){
+            vies = vies - 1;
+            texte = "Ressayez !"
+            console.log("ressayez score = " + score)
+            console.log("ressayez vies = " + vies);
+        }
+        else{
             texte = "ce n'est pas la bonne reponse";
             result = false;
 
-            //si vie est egale a 0
-            if(vies == 0){
-                texte = "Vous Avez perdue !";
+            //si vie est egale a 0  ou score = 0
+            if(vies == 0 || score == 0){
+                // tu stocke score dans un tableau ./
+                histScore.push(score);
+                texte = "game over";
+                //tu regenere une questions
                 this.regeneQuestions();
+                vies = 3;
+
 
             }
-
-            //sinon si vie est superieur de 0 ou egal a 1 ou vies est inferieure ou egale a 3
-            else if(vies >= 1){
-                vies = vies - 1;
+            //si tu perd des vies ton score reste fixe, if vies == vies - 1 alors scrore vaut this;state.score
+            if(vies == vies - 1 ){
+                score = this.state.score;
+                console.log(score);
             }
-
+            // mais si tu une bonne reponse,
+            // vies reste fix et score s'incremente
             //si score est superieur a 0 ou egal a 1
             if(score >= 1){
                 score = score - 1;
             }
-
-            // si tu na plus de vie tu affiche game over
-            if(vies == 0){
-                // tu stocke score dans un tableau
-                let tab = this.state.histScore;
-                tab.push(score);
-                console.log(tab);
-                score = score;
-                console.log( "vaut" + score);
-                // tu rafraichit le jeu
-                alert("Game Over");
-            }
-
-
-
-
-
         }
 
         this.setState({
@@ -130,6 +136,7 @@ class TableMultiplication extends React.Component{
             score : score,
             result: result,
             vies : vies,
+            histScore: histScore,
 
         })
 
@@ -145,6 +152,7 @@ class TableMultiplication extends React.Component{
             randNumber: rand1,
             randNumber2: rand2,
             reponse : "",
+            text: "",
         })
 
         /**

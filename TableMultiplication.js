@@ -113,8 +113,6 @@ class TableMultiplication extends React.Component{
                 //tu regenere une questions
                 this.regeneQuestions();
                 vies = 3;
-
-
             }
             //si tu perd des vies ton score reste fixe, if vies == vies - 1 alors scrore vaut this;state.score
             if(vies == vies - 1 ){

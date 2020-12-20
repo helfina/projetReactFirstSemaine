@@ -14,7 +14,16 @@ class TableMultiplication extends React.Component{
                 result: "",
                 vies: 3,
                 histScore: [],
+                historique: [
+
+                    {
+                    questionH : "",
+                    scoreH : "",
+                    vieH : ""
+                    }
+                ]
             }
+
 
         this.getValueInput = this.getValueInput.bind(this);
         this.compareReponse = this.compareReponse.bind(this);
@@ -46,10 +55,10 @@ class TableMultiplication extends React.Component{
                     <h6>Historiques</h6>
                     <ul>
                        {this.state.histScore.map(
-                           (histScores,index) => (
+                           (histScore,index) => (
                                <li key={index}>
                                     <span> score : </span>
-                                    {histScores}
+                                    {histScore}
                                 </li>
                            )
                        ).reverse()}
@@ -162,5 +171,17 @@ class TableMultiplication extends React.Component{
         })
     }
 
+    historique(){
+        /*
+        * console.log(this.state.historique.map((historique, index) => (<p key={index}>
 
+                                      <span>questions : {historique.questionH}</span><br/>
+                                      <span>score :  {historique.scoreH}</span><br/>
+                                      <span>vie : {historique.vieH}</span>
+                                  </p>
+                                )))
+        *
+        * */
+
+    }
 }

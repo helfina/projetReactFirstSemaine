@@ -1,4 +1,5 @@
 /*classe TableMultiplication*/
+// TODO j'aimerais stocker chaque question avec sa reponse dans un tableaux
 class TableMultiplication extends React.Component{
     constructor() {
         super();
@@ -43,7 +44,17 @@ class TableMultiplication extends React.Component{
                     <p>vies : {this.state.vies}</p>
                     <p>score : {this.state.score}</p>
                     <h6>Historiques</h6>
-                    <p>{this.state.histScore + "\n"}</p>
+                    <ul>
+                       {this.state.histScore.map(
+                           (histScores,index) => (
+                               <li key={index}>
+                                    <span> score : </span>
+                                    {histScores}
+                                </li>
+                           )
+                       ).reverse()}
+                    </ul>
+
 
                 </div>
             </div>

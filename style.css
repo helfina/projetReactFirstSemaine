@@ -61,9 +61,14 @@ p{
 .App{
     text-align: center;
 }
-tbody{
+form{
     display: flex;
+    flex-direction: column;
+   align-items: center;
 }
-td{
-    border: 3px solid darkblue;
+label, input, button{
+    margin: 5px;
+}
+li{
+list-style-type: none;
 }

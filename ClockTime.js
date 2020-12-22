@@ -15,7 +15,7 @@ class ClockTime extends React.Component{
 
             }
         this.dateTime = this.dateTime.bind(this);
-        setInterval(this.dateTime, 1000);
+        setInterval(this.dateTime, 10);
 
     }
     render() {
@@ -61,11 +61,12 @@ class ClockTime extends React.Component{
         const secondsHand = document.querySelector('.seconds');
         let now = new Date;
         let seconds = now.getSeconds();
+        let miliSeconds = now.getMilliseconds();
         let minutes = now.getMinutes();
         let hours = now.getHours();
         let hoursAngle = (360 * hours) / 12;
         let minutesAngle = (360 * minutes) / 60;
-        let secondsAngle = (360 * seconds) / 60;
+        let secondsAngle = (360 * seconds) / 60 * (miliSeconds / 100);
 
         hoursHand.style.transform = `rotate(${hoursAngle}deg) translate(0, -50%)`;
         minutesHand.style.transform = `rotate(${minutesAngle}deg) translate(0, -50%)`;

@@ -1,4 +1,5 @@
 /*classe TableMultiplication*/
+// TODO j'aimerais stocker chaque question avec sa reponse dans un tableaux
 class TableMultiplication extends React.Component{
     constructor() {
         super();
@@ -13,7 +14,16 @@ class TableMultiplication extends React.Component{
                 result: "",
                 vies: 3,
                 histScore: [],
+                historique: [
+
+                    {
+                    questionH : "",
+                    scoreH : "",
+                    vieH : ""
+                    }
+                ]
             }
+
 
         this.getValueInput = this.getValueInput.bind(this);
         this.compareReponse = this.compareReponse.bind(this);
@@ -33,17 +43,28 @@ class TableMultiplication extends React.Component{
                        onFocus={this.hiddenText}
 
                 />
+
                 <button>Valider ma réponse</button>
                 </form>
 
+                <h2>{this.state.text}</h2>
+
                 <div>
-                    <p>{this.state.text}</p>
                     <p>vies : {this.state.vies}</p>
                     <p>score : {this.state.score}</p>
                     <h6>Historiques</h6>
                     <ul>
-                        <li>{this.state.histScore}</li>
+                       {this.state.histScore.map(
+                           (histScore,index) => (
+                               <li key={index}>
+                                    <span> score : </span>
+                                    {histScore}
+                                </li>
+                           )
+                       ).reverse()}
                     </ul>
+
+
                 </div>
             </div>
         )
@@ -71,6 +92,7 @@ class TableMultiplication extends React.Component{
      * comparaison de la valeur de la  question et de la valeur de la reponse
      */
     compareReponse(event){
+
         event.preventDefault();
 
         let rand1 = this.state.randNumber;
@@ -88,45 +110,31 @@ class TableMultiplication extends React.Component{
             texte = "bravo";
             score = score + 1;
             result = true;
-            vies = 3;
             console.log("score vaut : " + score );
             console.log("vies vaut : " + vies );
             this.regeneQuestions();
-        }
 
-        //sinon si vie est superieur de 0 ou egal a 1
-        else if(vies >= 1){
-            vies = vies - 1;
-            texte = "Ressayez !"
-            console.log("ressayez score = " + score)
-            console.log("ressayez vies = " + vies);
         }
         else{
             texte = "ce n'est pas la bonne reponse";
             result = false;
+            vies = vies - 1;
+             console.log("score vaut : " + score );
+            console.log("vies vaut : " + vies );
 
-            //si vie est egale a 0  ou score = 0
-            if(vies == 0 || score == 0){
-                // tu stocke score dans un tableau ./
+            if(vies == 0){
+
                 histScore.push(score);
-                texte = "game over";
-                //tu regenere une questions
+                texte = "Game Over !";
                 this.regeneQuestions();
+                score = 0;
                 vies = 3;
-            }
-            //si tu perd des vies ton score reste fixe, if vies == vies - 1 alors scrore vaut this;state.score
-            if(vies == vies - 1 ){
-                score = this.state.score;
-                console.log(score);
+
             }
 
-            // mais si tu une bonne reponse,
-            // vies reste fix et score s'incremente
-            //si le resultat est faux
-            if(resultat != reponse && vies == 0){
-                score = score - 1;
-            }
         }
+
+
         this.setState({
             text : texte,
             score : score,
@@ -155,11 +163,25 @@ class TableMultiplication extends React.Component{
          * reinitialize le state text a vide quand on focus l'input
          * */
     }
+
     hiddenText(){
+
         this.setState({
             text : "",
         })
     }
 
+    historique(){
+        /*
+        * console.log(this.state.historique.map((historique, index) => (<p key={index}>
 
+                                      <span>questions : {historique.questionH}</span><br/>
+                                      <span>score :  {historique.scoreH}</span><br/>
+                                      <span>vie : {historique.vieH}</span>
+                                  </p>
+                                )))
+        *
+        * */
+
+    }
 }

@@ -41,20 +41,23 @@
 .hours {
     width: 5px;
     height: 35%;
-    color: white;
+    color: transparent;
+
 }
 
 .minutes {
     width: 3px;
     height: 40%;
-    color: white;
+    color: transparent;
+
 }
 
 .seconds {
     width: 2px;
     height: 50%;
-    color: white;
+    color: transparent;
 }
+
 p{
     text-align: center;
 }

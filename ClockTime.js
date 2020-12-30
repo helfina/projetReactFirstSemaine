@@ -1,8 +1,10 @@
 /*class Horloge */
 class ClockTime extends React.Component{
 
-    constructor()
-    {   super();
+    constructor(props)
+    {
+        super(props);
+
         this.state =
             {
                 dateTime : new Date(),
@@ -12,20 +14,24 @@ class ClockTime extends React.Component{
                 interval : null,
                 status :  false,
                 timer: 1000,
-
             }
+
         this.dateTime = this.dateTime.bind(this);
         setInterval(this.dateTime, 10);
-
+        console.log(this.props.fluids);
     }
+
     render() {
+
         return (
+
             <div>
-                {console.log(this.dateTime)}
+
                 <h2 className="title">Horloge</h2>
-                <div id="wrapper">
-                    <section id="app-horloge">
-                        <div id="clock">
+                <div className="wrapper">
+                    <section className="app-horloge">
+
+                        <div className="clock">
                             <span className="hand hours">{this.state.hours}</span>
                             <span className="hand minutes">{this.state.minute}</span>
                             <span className="hand seconds">{this.state.seconds}</span>
@@ -36,12 +42,12 @@ class ClockTime extends React.Component{
                 </div>
 
                 {
-
                     <p>
                         {this.state.dateTime.toDateString()}<br/>
                         {this.state.dateTime.toLocaleTimeString()}
                     </p>
                 }
+
             </div>
         )
     }

@@ -1,9 +1,9 @@
 /*class Horloge */
 class ClockTime extends React.Component{
 
-    constructor(props)
+    constructor()
     {
-        super(props);
+        super();
 
         this.state =
             {
@@ -11,15 +11,34 @@ class ClockTime extends React.Component{
                 seconds: "",
                 minute : "",
                 hours : "",
-                interval : null,
-                status :  false,
-                timer: 1000,
             }
 
         this.dateTime = this.dateTime.bind(this);
-        setInterval(this.dateTime, 10);
-        console.log(this.props.fluids);
     }
+
+    componentDidMount(){
+        console.log("props", this.props);
+        console.log("fluide ? ", this.props.fluids);
+
+        let periode;
+        if(this.props.fluids){
+            periode = 10;
+        }else{
+            periode = 1000;
+        }
+        setInterval(this.dateTime, periode);
+        console.log("période : " + periode + "ms");
+    }
+
+    /** Pour gérer this.props.fluids
+     * si fluide :
+     * _interval dateTime() : 10ms
+     * _nombres précis à la miiseconde près pour les secondes,minutes,heures
+     *
+     * si non fluid :
+     * _interval dateTime() : 1000ms
+     * _nombres entiers pour les secondes,minutes,heures
+     */
 
     render() {
 
@@ -56,17 +75,20 @@ class ClockTime extends React.Component{
         const hoursHand = document.querySelector('.hours');
         const minutesHand = document.querySelector('.minutes');
         const secondsHand = document.querySelector('.seconds');
-
         let now = new Date;
-
         let miliSeconds = now.getMilliseconds();
-        let seconds = now.getSeconds() + miliSeconds / 1000;
-        let minutes = now.getMinutes() + seconds / 60 ;
-        let hours = now.getHours() + minutes / 60 ;
+        let seconds = now.getSeconds()
+        let minutes = now.getMinutes()
+        let hours = now.getHours()
+
+        if(this.props.fluids){
+            seconds = seconds + miliSeconds / 1000;
+            minutes = minutes + seconds / 60 ;
+            hours = hours + minutes / 60 ;
+        }
 
         let hoursAngle = (360 * hours) / 12;
         let minutesAngle = (360 * minutes) / 60;
-
         //1 Millisecondes = 0.001 Secondes
         let secondsAngle = (360 * seconds) / 60;
 

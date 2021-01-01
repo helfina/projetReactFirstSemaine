@@ -34,6 +34,31 @@
 
     // App est l'élément qui servira de base pour votre application, c'est son point d'entrée.
     class App extends React.Component {
+        constructor() {
+            super();
+
+            this.state = {
+                fluids : true,
+            }
+            this.SwitchFluideClock = this.SwitchFluideClock.bind(this);
+
+        }
+
+        SwitchFluideClock(){
+            /* Bonne méthode à utiliser lorsque notre modification du state dépend de l'état actuel du state : passer une fonction en paramètre du setState */
+            /*
+            this.setState(function(state){
+                return {
+                    fluids: !state.fluids
+                }
+            });
+            */
+
+            this.setState({
+              //inverse le boolean
+                fluids: !this.state.fluids
+            })
+        }
 
         render() {
             return (
@@ -43,7 +68,9 @@
 
                     }
 
-                    <ClockTime fluids={true} />
+                    <ClockTime fluids={this.state.fluids} />
+                    <button onClick={this.SwitchFluideClock}>fluide / non fluide</button>
+
                     <TableMultiplication/>
                 </div>
             )
